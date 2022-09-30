@@ -21,3 +21,4 @@ performs the following automated tasks:
 - [ ] add Gitpod yaml configuration
 - [ ] resolve issue with `make build-mainnet-reproducible` where it's referencing `secret-box-template-cw1`
 - [ ] add tutorial content to illustrate the format
+- [ ] have DDT review integration tests
