@@ -16,3 +16,8 @@ performs the following automated tasks:
 
 ![Secret Box Template Dapp](/docs/secret-box-template.png)
 
+## TODO
+
+[ ] add Gitpod yaml configuration
+[ ] resolve issue with `make build-mainnet-reproducible` where it's referencing `secret-box-template-cw1`
+[ ] add tutorial content to illustrate the format
