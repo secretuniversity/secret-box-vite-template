@@ -18,6 +18,6 @@ performs the following automated tasks:
 
 ## TODO
 
-[ ] add Gitpod yaml configuration
-[ ] resolve issue with `make build-mainnet-reproducible` where it's referencing `secret-box-template-cw1`
-[ ] add tutorial content to illustrate the format
+- [ ] add Gitpod yaml configuration
+- [ ] resolve issue with `make build-mainnet-reproducible` where it's referencing `secret-box-template-cw1`
+- [ ] add tutorial content to illustrate the format
