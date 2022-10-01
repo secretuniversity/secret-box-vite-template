@@ -48,8 +48,8 @@ schema:
 	cargo run --example schema
 
 # Run local development chain with four funded accounts (named a, b, c, and d)
-.PHONY: start-server
-start-server: # CTRL+C to stop
+.PHONY: localsecret
+localsecret: # CTRL+C to stop
 	docker run -it --rm \
 		-p 26657:26657 -p 1317:1317 -p 5000:5000 -p 9090:9090 -p 9091:9091 \
 		-v $$(pwd):/root/code \
@@ -58,8 +58,8 @@ start-server: # CTRL+C to stop
 # This relies on running `start-server` in another console
 # You can run other commands on the secretcli inside the dev image
 # by using `docker exec secretdev secretcli`.
-.PHONY: store-contract-local
-store-contract-local:
+.PHONY: deploy
+deploy:
 	docker exec localsecret secretcli tx compute store -y --from a --gas 1000000 /root/code/contract.wasm.gz
 
 .PHONY: clean
