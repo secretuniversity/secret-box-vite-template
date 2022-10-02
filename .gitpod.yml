@@ -1,0 +1,66 @@
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - name: Rust Toolchain
+    before: |
+      echo "Rust toolchain"
+      CARGO_HOME=/home/gitpod/.cargo rustup install nightly
+      rustup target add wasm32-unknown-unknown --toolchain nightly
+      rustup default nightly
+    init: gp sync-done toolchain
+    command: exit
+
+  - name: Install Vue
+    before: |
+      echo "Install Vue"
+      yarn global add @vue/cli
+    init: |
+      gp sync-await toolchain
+      gp sync-done vue
+    command: exit
+    openMode: split-right
+
+  - name: SecretDev Local Blockchain
+    before: docker pull ghcr.io/scrtlabs/localsecret
+    init: gp sync-await toolchain
+    command: |
+      echo "Starting localsecret blockchain"
+      make localsecret
+      gp sync-done blockchain
+      docker container logs -f localsecret
+    openMode: split-right
+
+  - name: Compile and Run Unit Tests
+    before: docker pull enigmampc/secret-contract-optimizer
+    init: |
+      gp sync-await toolchain
+      echo "Compile secret contract"
+      make build
+      echo "Build schema files"
+      make schema
+      echo "Run unit tests"
+      make test
+      gp sync-done compile
+    openMode: split-right
+
+  - name: Secret Contract Deploy and Instantiate
+    command: |
+      gp sync-await blockchain compile
+      echo "Deploy and instantiate secret contract to local blockchain"
+      scripts/create_secret_box.sh
+      gp sync-done secretcontract
+    openMode: split-right
+      
+  - name: Dependencies and Dev Server
+    init: gp sync-await vue
+    command: |
+      gp sync-await secretcontract
+      cd app
+      echo "Install dependencies"
+      yarn install 
+      yarn dev
+    openMode: split-right
+
+# List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
+ports:
+  - port: 5173
+    onOpen: open-preview
