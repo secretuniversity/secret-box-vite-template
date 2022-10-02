@@ -7,31 +7,23 @@ It consists of a frontend (Vue + Vite + Typescript) and a secret contract (Rust 
 
 ## What is a Secret Box?
 
-Secret Boxes are quickstarts or blueprints that contain everything you need to start developing on Secret Network.
+Secret Boxes are quickstarts or blueprints that contain everything you need to start developing on Secret Network. 
+They are intended to be run in a developer sandbox so you don't have to worry about installing various tooling, 
+frameworks, etc.
+
+Launching via Gitpod will create an environment that automatically starts `localsecret` (dockerized Secret Network),
+and exposes the ports for application development.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/secretuniversity/secret-box-vite-template)
 
-### Gitpod Configuration
-
-Launching via Gitpod will create an environment that automatically starts `localsecret` (dockerized Secret Network),
-and exposes the ports for application developmennt.
-
-When launched via Gitpod or another compatible sandbox development environment performs the following automated tasks:
+When launched the following automated tasks are kicked off:
 
 - launch an instance of `localsecret`
 - build and deploy the secret contract to `localsecret`
 - instantiate the secret contract
-- install dependencies and launche the frontend using Vite
+- install dependencies and launch the frontend using Vite
 
 ![Secret Box Template Dapp](/docs/secret-box-template.png)
-
-### Connecting from outside Gitpod
-
-To connect, prepend the port number with the gitpod url. e.g. if the workspace is at
-`https://secretunive-secretdicec-kf37podxsnu.ws-us59.gitpod.io` then you can connect to the LCD service at
-`https://1317-secretunive-secretdicec-kf37podxsnu.ws-us59.gitpod.io`.
-
-This repo also comes with all the dependencies you need to develop Secret Contracts, and SecretCLI.
 
 ## Creating a Secret Box
 
@@ -39,9 +31,25 @@ Creating a Secret Box involves one part coding and one part technical writing.
 
 Each Secret Box has an accompanying tutorial hosted on the Secret University website. The tutorial is written in Markdown and can be found in the [tutorial](/tutorial/) directory of this repo.
 
+### Setup Your Local Developer Environment
+
+This [Setting Up Your Environment](https://docs.scrt.network/secret-network-documentation/development/getting-started/setting-up-your-environment) guide will help you get going on your journey developing a Secret Box.
+
+In addition to the Secret Contract setup, you will also need to install `Nodejs` and `yarn` for the integration 
+tests and frontend app.
+
+#### Install Nodejs
+
+Use the installer for your environment [here](https://nodejs.dev/en/download).
+
+#### Install Yarn
+
+You can find information on installing `yarn`, getting started, advanced topics and more [here](https://yarnpkg.com).
+
 ### Writing Your Guide
 
-Secret Box tutorials are written using Markdown and require specific pieces of front matter to display properly on the website.
+Secret Box tutorials are written using Markdown and require specific pieces of front matter to display properly 
+on the website.
 
 #### Secret Box Front Matter
 
@@ -87,8 +95,8 @@ Because the Secret Boxes website is built using Astro, our tutorials can utilize
 ```
 setup: |
   import MarkdownImage from '@components/MarkdownImage.svelte'
-title: Launch Developer Blockchain
-description: The first thing you’ll need to do to start developing secret contracts in your local environment is install and launch a Secret Network blockchain.
+title: Hello World Design
+description: This is a UML diagram illustrating the secret box components and how they interact.
 ...
 ```
 
@@ -97,15 +105,15 @@ If we include a setup variable in our Frontmatter we are allowed to import frame
 ```html
 <MarkdownImage
   client:visible
-  alt="Image of Secret testnet startup"
-  image="/boxes/hello world/secretdev-startup-1.jpg"></MarkdownImage>
+  alt="UML diagram image of the Hello World secret box"
+  image="/tutorial/illustrations/hello-world-design.jpg"></MarkdownImage>
 ```
 
 This `MarkdownImage` component allows us to create a special `img` component which when clicked on the website will display a modal with the option for the user to download the image.
 
 More details on the available components built for Secret Boxes tutorials will be listed here.
 
-## 🚀 Project Structure
+### 🚀 Project Structure
 
 ```
 /
@@ -129,9 +137,9 @@ More details on the available components built for Secret Boxes tutorials will b
     ├── content
     └── illustrations
 ```
-## 🧞 Commands & Usage
+### 🧞 Commands & Usage
 
-### Secret Contract
+#### Secret Contract
 
 After cloning the repo, the following commands are run from the root of the project, from a terminal and apply
 to the secret contracts:
@@ -154,7 +162,7 @@ to bootstrap frontend development.
 npx ts-node integration.ts
 ```
 
-### Frontend App
+#### Frontend App
 
 These commands apply to the frontend of the Secret Box and are run from the `app` directory:
 
@@ -166,36 +174,23 @@ These commands apply to the frontend of the Secret Box and are run from the `app
 | `yarn build`   | Build your production site to `./dist/`      |
 | `yarn preview` | Preview your build locally, before deploying |
 
-## Setup Your Local Developer Environment
 
-Secret Boxes are intended to be run in a developer sandbox so you don't have to worry about installing
-various tooling, frameworks, etc.
+#### Connecting from outside Gitpod
 
-If you would like to work with a box in your local environment, 
-this [Setting Up Your Environment](https://docs.scrt.network/secret-network-documentation/development/getting-started/setting-up-your-environment) guide will help you get everything you need to run secret contracts.
+To connect, prepend the port number with the gitpod url. e.g. if the workspace is at
+`https://secretunive-secretboxvi-zyc1kppqbvk.ws-us69.gitpod.io` then you can connect to the LCD service at
+`https://1317-secretunive-secretboxvi-zyc1kppqbvk.ws-us69.gitpod.io`.
 
-In addition to the Secret Contract setup, you will also need to install `Nodejs` and `yarn` for the integration 
-tests and frontend app.
-
-### Install Nodejs
-
-Use the installer for your environment [here](https://nodejs.dev/en/download).
-
-### Install Yarn
-
-You can find information on installing `yarn`, getting started, advanced topics and more [here](https://yarnpkg.com).
+## Resources
+- [Secret Network docs](https://docs.scrt.network)
+- [Secret IDE](https://www.digiline.io/)
 
 ## Contributors
 - Laura Weindorf [Github](https://github.com/secetchaingirl)
 - Alex (sinplea) [Github](https://github.com/sinplea)
 - DDT5 [Github](https://github.com/DDT5)
 
-## Resources
-- [Secret Network docs](https://docs.scrt.network)
-- [Secret IDE](https://www.digiline.io/)
-
 ## TODO
-
 - [ ] add Gitpod yaml configuration
 - [ ] add tutorial content to illustrate the format
 - [ ] have DDT review integration tests
