@@ -32,8 +32,8 @@ tasks:
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
-      gp sync-done secretbox-env
     command: |
+      gp sync-done secretbox-env
       exit
 
   - name: Launch LocalSecret
