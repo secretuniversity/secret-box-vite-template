@@ -24,7 +24,7 @@ declare -A FROM=(
 # In particular, it's not possible to dynamically expand aliases, but `tx_of` dynamically executes whatever
 # we specify in its arguments.
 function secretcli() {
-    docker exec secretdev /usr/bin/secretd "$@"
+    docker exec localsecret /usr/bin/secretd "$@"
 }
 
 # Just like `echo`, but prints to stderr
