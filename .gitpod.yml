@@ -33,6 +33,10 @@ tasks:
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
+      echo "Compile secret box contract"
+      make build
+      echo "Build schema files"
+      make schema
     command: |
       gp sync-done secretbox-env
       exit
@@ -50,10 +54,6 @@ tasks:
   - name: Secret Box Contract
     command: |
       gp sync-await blockchain
-      echo "Compile secret box contract"
-      make build
-      echo "Build schema files"
-      make schema
       echo "Run unit tests"
       make unit-test
       echo "Deploy and instantiate secret contract to local blockchain"
