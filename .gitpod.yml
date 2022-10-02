@@ -4,13 +4,13 @@ github:
     # enable for the master/default branch (defaults to true)
     master: true
     # enable for all branches in this repo (defaults to false)
-    branches: true
+    branches: false
     # enable for pull requests coming from this repo (defaults to true)
-    pullRequests: true
+    pullRequests: false
     # enable for pull requests coming from forks (defaults to false)
-    pullRequestsFromForks: true
+    pullRequestsFromForks: false
     # add a "Review in Gitpod" button as a comment to pull requests (defaults to true)
-    addComment: true
+    addComment: false
     # add a "Review in Gitpod" button to pull requests (defaults to false)
     addBadge: false
     # add a label once the prebuild is ready to pull requests (defaults to false)
@@ -21,6 +21,9 @@ tasks:
     init: |
       echo "Install Vue"
       yarn global add @vue/cli
+      cd app
+      echo "Install project dependencies"
+      yarn install 
       echo "Setup Rust toolchain"
       rustup install nightly
       rustup target add wasm32-unknown-unknown --toolchain nightly
@@ -34,10 +37,8 @@ tasks:
       exit
 
   - name: Launch LocalSecret
-    before: |
-      echo "Wait for Secret Box developer environment"
-      gp sync-await secretbox-env
     command: |
+      gp sync-await secretbox-env
       echo "Starting localsecret blockchain"
       make localsecret &
       gp ports await 9090
@@ -46,8 +47,7 @@ tasks:
     openMode: split-right
 
   - name: Secret Box Contract
-    before: |
-      echo "Wait for LocalSecret instance"
+    command: |
       gp sync-await blockchain
       echo "Compile secret box contract"
       make build
@@ -55,17 +55,12 @@ tasks:
       make schema
       echo "Run unit tests"
       make unit-test
-    command: |
       echo "Deploy and instantiate secret contract to local blockchain"
       gp env SECRET_BOX_ADDRESS=`scripts/create_secret_box.sh`
       gp sync-done secretbox-contract
     openMode: split-right
 
   - name: Secret Box Frontend
-    init: |
-      cd app
-      echo "Install project dependencies"
-      yarn install 
     command: |
       gp sync-await secretbox-contract
       cd app
