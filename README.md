@@ -1,4 +1,4 @@
-# Secret Box Template ![secret box logo](/docs/logo.png)
+# Secret Box Template ![secret box logo](/docs/logo-32x32.png)
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/secretuniversity/secret-box-vite-template)
 
