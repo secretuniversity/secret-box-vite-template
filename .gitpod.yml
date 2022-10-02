@@ -1,63 +1,60 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: Rust Toolchain
-    before: |
-      echo "Rust toolchain"
+  - name: Setup Secret Box developer environment
+    init: |
+      echo "Install Vue"
+      yarn global add @vue/cli
+      echo "Setup Rust toolchain"
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
       CARGO_HOME=/home/gitpod/.cargo rustup install nightly
       rustup target add wasm32-unknown-unknown --toolchain nightly
       rustup default nightly
-    init: gp sync-done toolchain
-    command: exit
+      echo "Pull LocalSecret image"
+      docker pull ghcr.io/scrtlabs/localsecret
+      echo "Pull contract optimizer image"
+      docker pull enigmampc/secret-contract-optimizer
+      gp sync-done secretbox-env
+    command: |
+      exit
 
-  - name: Install Vue
+  - name: Launch LocalSecret
     before: |
-      echo "Install Vue"
-      yarn global add @vue/cli
-    init: |
-      gp sync-await toolchain
-      gp sync-done vue
-    command: exit
-    openMode: split-right
-
-  - name: SecretDev Local Blockchain
-    before: docker pull ghcr.io/scrtlabs/localsecret
-    init: gp sync-await toolchain
+      echo "Wait for Secret Box developer environment"
+      gp sync-await secretbox-env
     command: |
       echo "Starting localsecret blockchain"
-      make localsecret
+      make localsecret &
+      gp ports await 9090
       gp sync-done blockchain
       docker container logs -f localsecret
     openMode: split-right
 
-  - name: Compile and Run Unit Tests
-    before: docker pull enigmampc/secret-contract-optimizer
-    init: |
-      gp sync-await toolchain
-      echo "Compile secret contract"
+  - name: Secret Box Contract
+    before: |
+      echo "Wait for LocalSecret instance"
+      gp sync-await blockchain
+      echo "Compile secret box contract"
       make build
       echo "Build schema files"
       make schema
       echo "Run unit tests"
-      make test
-      gp sync-done compile
+      make unit-test
+    command: |
+      echo "Deploy and instantiate secret contract to local blockchain"
+      gp env SECRET_BOX_ADDRESS=`scripts/create_secret_box.sh`
+      gp sync-done secretbox-contract
     openMode: split-right
 
-  - name: Secret Contract Deploy and Instantiate
-    command: |
-      gp sync-await blockchain compile
-      echo "Deploy and instantiate secret contract to local blockchain"
-      scripts/create_secret_box.sh
-      gp sync-done secretcontract
-    openMode: split-right
-      
-  - name: Dependencies and Dev Server
-    init: gp sync-await vue
-    command: |
-      gp sync-await secretcontract
+  - name: Secret Box Frontend
+    init: |
       cd app
-      echo "Install dependencies"
+      echo "Install project dependencies"
       yarn install 
+    command: |
+      gp sync-await secretbox-contract
+      cd app
       yarn dev
+      gp open tutorial/guide.md
     openMode: split-right
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/

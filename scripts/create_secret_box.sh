@@ -241,6 +241,7 @@ function main() {
     log 'Secret Box created successfully'
 
     # If everything else worked, return successful status
+    echo $contract_addr
     return 0
 }
 
