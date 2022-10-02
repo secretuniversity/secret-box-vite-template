@@ -5,8 +5,7 @@ tasks:
       echo "Install Vue"
       yarn global add @vue/cli
       echo "Setup Rust toolchain"
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-      CARGO_HOME=/home/gitpod/.cargo rustup install nightly
+      rustup install nightly
       rustup target add wasm32-unknown-unknown --toolchain nightly
       rustup default nightly
       echo "Pull LocalSecret image"
