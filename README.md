@@ -11,8 +11,18 @@ Secret Boxes are quickstarts or blueprints that contain everything you need to s
 They are intended to be run in a developer sandbox so you don't have to worry about installing various tooling, 
 frameworks, etc.
 
-Launching via Gitpod will create an environment that automatically starts `localsecret` (dockerized Secret Network),
-and exposes the ports for application development.
+There are a couple of key things that make Secret Boxes special:
+
+1. In addition to the secret contract, each box comes with a professionally-designed and implemented frontend,
+which includes a UI/UX kit.
+
+This lets you, as the developer, focus on building and can reduce the time it takes to evolve and deploy it as your own Secret App because you don't have to worry about the design. If you are a developer that can also design and 
+and implement the UI/UX for your app, you are a special breed indeed. For many developers, this skillset isn't quite 
+in their wheelhouse. One of the major goals for Secret Boxes is to address this need in the Secret Network
+developer community.
+
+2. Because they're launched in a developer sandbox environment, they can be configured to perform automated tasks 
+such as starting `localsecret` (dockerized Secret Network), compiling your secret contract, deploying and more.
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/secretuniversity/secret-box-vite-template)
 
