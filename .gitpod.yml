@@ -18,11 +18,6 @@ github:
 
 tasks:
   - name: Setup Secret Box developer environment
-    before: |
-      echo "Setup Rust toolchain"
-      rustup install nightly
-      rustup target add wasm32-unknown-unknown --toolchain nightly
-      rustup default nightly
     init: |
       echo "Install Vue"
       yarn global add @vue/cli
@@ -33,6 +28,10 @@ tasks:
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
+      echo "Setup Rust toolchain"
+      rustup install nightly
+      rustup target add wasm32-unknown-unknown --toolchain nightly
+      rustup default nightly
       echo "Compile secret box contract"
       make build
       echo "Build schema files"
