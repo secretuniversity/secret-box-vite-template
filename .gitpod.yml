@@ -28,21 +28,18 @@ tasks:
       rustup install nightly
       rustup target add wasm32-unknown-unknown --toolchain nightly
       rustup default nightly
-      echo "Compile secret box contract"
-      make build
-      echo "Build schema files"
-      make schema
       echo "Pull LocalSecret image"
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
-    command: |
       gp sync-done secretbox-env
+    command: |
       exit
 
   - name: Launch LocalSecret
-    command: |
+    init: |
       gp sync-await secretbox-env
+    command: |
       echo "Starting localsecret blockchain"
       make localsecret &
       gp ports await 9090
@@ -51,6 +48,12 @@ tasks:
     openMode: split-right
 
   - name: Secret Box Contract
+    init: |
+      gp sync-await secretbox-env
+      echo "Compile secret box contract"
+      make build
+      echo "Build schema files"
+      make schema
     command: |
       gp sync-await blockchain
       echo "Run unit tests"
