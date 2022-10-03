@@ -28,14 +28,6 @@ tasks:
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
-      echo "Setup Rust toolchain"
-      rustup install nightly
-      rustup target add wasm32-unknown-unknown --toolchain nightly
-      rustup default nightly
-      echo "Compile secret box contract"
-      make build
-      echo "Build schema files"
-      make schema
     command: |
       gp sync-done secretbox-env
       exit
@@ -51,6 +43,15 @@ tasks:
     openMode: split-right
 
   - name: Secret Box Contract
+    init: |
+      echo "Setup Rust toolchain"
+      rustup install nightly
+      rustup target add wasm32-unknown-unknown --toolchain nightly
+      rustup default nightly
+      echo "Compile secret box contract"
+      make build
+      echo "Build schema files"
+      make schema
     command: |
       gp sync-await blockchain
       echo "Run unit tests"
