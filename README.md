@@ -55,67 +55,7 @@ You can find information on installing `yarn`, getting started, advanced topics 
 Secret Box tutorials are written using Markdown and require specific pieces of front matter to display properly 
 on the website.
 
-### Secret Box Front Matter
-
-Each post should have a front matter section at the top of the markdown file that looks something like this.
-
-```
-title: Part 1: Hello World
-description: The first thing you’ll need to do to start developing secret contracts in your local environment is install and launch a Secret Network blockchain.
-index: 1
-lottie: https://assets5.lottiefiles.com/private_files/lf30_0vbtxqrd.json
-box: {
-    title: Hello World,
-    description: "Use this tutorial to learn about launching a local Secret blockchain, modifying the secret contract, runing unit tests, and viewing debug messages in the node log.",
-    prelude: A fun way for developers to quickly learn about working with secret contracts.,
-    difficulty: Beginner,
-    image: /illustrations/hello-world.svg,
-    gitpod: https://gitpod.io/#https://github.com/secretuniversity/secret-box-hello-world
-}
-```
-
-#### Post-Specific Front Matter
-
-* `title` Title for the specific tutorial (**required**)
-* `description`: Description for the specific tutorial (**required**)
-* `index`: A Secret Box can be split up between many different posts. This index indicates the ordering for each post and **begins at index 1** (**required**)
-* `lottie`: Refers to a lottie animation url (*optional*)
-
-#### Box-Specific Front Matter
-
-Each tutorial post must also include information about the Secret Box it pertains to. Noted by the `box` object of the example. Currently all `box` variables are **required,** but they can be copy and pasted for posts pertaining to the same box.
-
-* `title` Title of the Secret Box
-* `description` Description of the Secret Box
-* `prelude` A short one-sentence description of the Secret Box
-* `difficulty` One of three options: Beginner, Intermediate, Advanced
-* `image` An image for the Secret Box
-* `gitpod` A gitpod deployment URL
-
-### Speciality Markdown Components
-
-Because the Secret Boxes website is built using Astro, our tutorials can utilized reactive JavaScript components within our markdown files. For example,
-
-```
-setup: |
-  import MarkdownImage from '@components/MarkdownImage.svelte'
-title: Hello World Design
-description: This is a UML diagram illustrating the secret box components and how they interact.
-...
-```
-
-If we include a setup variable in our Frontmatter we are allowed to import framework specific components into our Markdown and use them like so:
-
-```html
-<MarkdownImage
-  client:visible
-  alt="UML diagram image of the Hello World secret box"
-  image="/tutorial/illustrations/hello-world-design.jpg"></MarkdownImage>
-```
-
-This `MarkdownImage` component allows us to create a special `img` component which when clicked on the website will display a modal with the option for the user to download the image.
-
-More details on the available components built for Secret Boxes tutorials will be listed here.
+The tutorial content is placed in `tutorial/guide.md` with any accompanying images kept in the `tutorial/illustrations` directory.
 
 ## Project Structure
 
@@ -138,7 +78,7 @@ More details on the available components built for Secret Boxes tutorials will b
 │       └── release
 ├── tests
 └── tutorial
-    ├── content
+    ├── guide.md
     └── illustrations
 ```
 ## Commands & Usage
@@ -195,6 +135,5 @@ To connect, prepend the port number with the gitpod url. e.g. if the workspace i
 - DDT5 [Github](https://github.com/DDT5)
 
 # TODO
-- [ ] add Gitpod yaml configuration
 - [ ] add tutorial content to illustrate the format
 - [ ] have DDT review integration tests
