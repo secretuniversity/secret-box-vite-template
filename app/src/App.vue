@@ -6,7 +6,7 @@ import SecretBox from './components/SecretBox.vue'
 
 <template>
   <div>
-    <a href="https://scrt.university" target="_blank">
+    <a href="https://scrt.university/repositories" target="_blank">
       <img src="/logo.png" class="logo" alt="Secret Box logo" />
     </a>
   </div>
