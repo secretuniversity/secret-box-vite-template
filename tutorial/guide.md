@@ -2,6 +2,8 @@
 
 This box comes with everything you need to create your own Secret Box.
 
+![](illustrations/secret-box-template.png)
+
 ## Getting Started
 
 Aside from making your contract and app-specific changes to the template code, you'll want to update the following:
