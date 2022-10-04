@@ -1,11 +1,5 @@
 # Secret Box Template Tutorial 
 
-For reference, the Gitpod deploy/instantiation of the Secret Box contract is noted below:
-
-```
-secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
-```
-
 This box comes with everything you need to create your own Secret Box.
 
 ## Getting Started
@@ -53,7 +47,7 @@ See the following steps for more details on the changes you need to make to make
 ## README
  - Update the `README.md` so that it's specific to your Secret Box.
  
-Include instructions on setting up and running your Secret Box locally so it can be reproduced. Consider including anything you think will help [Secret University](https://scrt.university) list your secret box (upon review and approval by the core team). Based on your judgment, you might have images and even diagrams (e.g. UML), design descriptions--basically the key things you think will be helpful for Secret Network developers in learning from and using your Secret Box.
+Include instructions on setting up and running your Secret Box locally so it can be reproduced. Consider including anything you think will help [Secret University](https://scrt.university) list your secret box (upon review and approval by the core team). Based on your judgement, you might have images and even diagrams (e.g. UML), design descriptions--basically the key things you think will be helpful for Secret Network developers in learning from and using your Secret Box.
 
 
 ## Integration Tests
@@ -72,8 +66,12 @@ If you want to use other frameworks and languages, feel free to completely revam
 After adding your code:
 
 1.  Use `src/assets/logo.png` in your `src/App.vue`, which is the Secret Box logo, somewhere within the header of your application.
+
+2. Add any box images needed as part of your guide to the `illustrations/` directory. For example, listing unit-test results in a tutorial step:
+
+![](illustrations/unit-test-log.png)
     
-2. Customize the box application code as necessary.
+3. Customize the box application code as necessary.
 
 ### UI/UX
 If you're able to create and implement your own Secret Box UI/UX (e.g. Figma), that's great. Secret Boxes are meant to have beautiful, intuitive and easy to use interfaces.
@@ -81,3 +79,12 @@ If you're able to create and implement your own Secret Box UI/UX (e.g. Figma), t
 If you're not that kind of developer (quite common!) and don't have the UI/UX expertise to create a polished user interface,  we ask that you include a wireframe in the form of a diagram or a simple text-based description of the elements required by your box and any other notes that would be helpful for our design/implementation team to bring your box to life.
 
 We look forward to seeing what Secret Box you will create for the Secret Network developer community :tada:.
+
+## Notes
+
+For reference, the Gitpod deploy/instantiation of the Secret Box contract address is noted below:
+
+```
+secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
+```
+
