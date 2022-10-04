@@ -26,8 +26,9 @@ When launched the following automated tasks are kicked off:
 
 - launch an instance of `localsecret`
 - build and deploy the secret contract to `localsecret`
+- run unit-tests on the secret contract
 - instantiate the secret contract
-- install dependencies and launch the frontend using Vite
+- install app dependencies and launch the frontend using Vite
 
 # Creating a Secret Box
 
@@ -134,6 +135,3 @@ To connect, prepend the port number with the gitpod url. e.g. if the workspace i
 - Alex (sinplea) [Github](https://github.com/sinplea)
 - DDT5 [Github](https://github.com/DDT5)
 
-# TODO
-- [ ] add tutorial content to illustrate the format
-- [ ] have DDT review integration tests
