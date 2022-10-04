@@ -135,3 +135,23 @@ To connect, prepend the port number with the gitpod url. e.g. if the workspace i
 - Alex (sinplea) [Github](https://github.com/sinplea)
 - DDT5 [Github](https://github.com/DDT5)
 
+# Notes
+
+To open Gitpod browser preview of Secret Box in the workspace:
+
+```
+gp preview $(gp url 5173) --external
+```
+
+or in an external browser window:
+
+```
+gp preview $(gp url 5173)
+```
+
+To open a markdown file in Gitpod workspace:
+
+```
+gp open tutorial/guide.md
+```
+
