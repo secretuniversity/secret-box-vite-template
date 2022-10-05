@@ -39,6 +39,8 @@ tasks:
       echo "Install project dependencies"
       yarn install 
       gp sync-done secretbox-env
+    command: |
+      exit
 
   - name: Launch LocalSecret
     init: |
@@ -46,8 +48,7 @@ tasks:
     command: |
       echo "Starting localsecret blockchain"
       make localsecret &
-      gp ports await 26657
-      gp sync-done blockchain
+      gp ports await 26657 && gp sync-done blockchain
       docker container logs -f localsecret
     openMode: split-right
 
@@ -72,6 +73,7 @@ tasks:
     command: |
       gp sync-await secretbox-contract
       gp open tutorial/guide.md
+      exit
     openMode: split-right
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
