@@ -19,25 +19,25 @@ github:
 tasks:
   - name: Setup Secret Box developer environment
     init: |
-      echo "Install Vue"
-      yarn global add @vue/cli
-      cd app
-      echo "Install project dependencies"
-      yarn install 
       echo "Setup Rust toolchain"
       rustup install nightly
       rustup target add wasm32-unknown-unknown --toolchain nightly
       rustup default nightly
       echo "Pull LocalSecret image"
       docker pull ghcr.io/scrtlabs/localsecret
+      echo "Pull contract optimizer image"
+      docker pull enigmampc/secret-contract-optimizer
       echo "Compile secret box contract"
       make build
       echo "Build schema files"
       make schema
       echo "Run unit tests"
       make test
-      echo "Pull contract optimizer image"
-      docker pull enigmampc/secret-contract-optimizer
+      echo "Install Vue"
+      yarn global add @vue/cli
+      cd app
+      echo "Install project dependencies"
+      yarn install 
       gp sync-done secretbox-env
 
   - name: Launch LocalSecret
