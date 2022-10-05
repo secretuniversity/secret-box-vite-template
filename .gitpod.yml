@@ -73,6 +73,7 @@ tasks:
   - name: Secret Box Tutorial
     command: |
       gp sync-await secretbox-contract
+      gp ports await 5173
       gp open tutorial/guide.md
       gp preview $(gp url 5173) --external
     openMode: split-right
