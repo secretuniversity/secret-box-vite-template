@@ -42,7 +42,7 @@ tasks:
     command: |
       echo "Starting localsecret blockchain"
       make localsecret &
-      gp ports await 9090
+      gp ports await 26657
       gp sync-done blockchain
       docker container logs -f localsecret
     openMode: split-right
