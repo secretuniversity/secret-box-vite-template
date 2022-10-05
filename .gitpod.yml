@@ -73,12 +73,14 @@ tasks:
   - name: Secret Box Tutorial
     command: |
       gp sync-await secretbox-contract
-      gp ports await 5173
       gp open tutorial/guide.md
-      gp preview $(gp url 5173) --external
     openMode: split-right
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
-  - port: 5173
+  - name: Secret Box App Preview
+    port: 5173
     onOpen: open-preview
+  - name: Secret Box App Browser
+    port: 5173
+    onOpen: open-browser
