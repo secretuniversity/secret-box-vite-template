@@ -81,6 +81,3 @@ ports:
   - name: Secret Box App Preview
     port: 5173
     onOpen: open-preview
-  - name: Secret Box App Browser
-    port: 5173
-    onOpen: open-browser
