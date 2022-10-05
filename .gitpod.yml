@@ -53,6 +53,7 @@ tasks:
       gp ports await 9091
       gp ports await 5000
       gp ports await 1317
+      sleep 5
       gp sync-done blockchain
       docker container logs -f localsecret
     openMode: split-right
