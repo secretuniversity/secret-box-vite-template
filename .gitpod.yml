@@ -66,9 +66,14 @@ tasks:
   - name: Secret Box Frontend
     command: |
       gp sync-await secretbox-contract
-      gp open tutorial/guide.md
       cd app
-      yarn dev
+      gp preview $(gp url 5173) --external
+    openMode: split-right
+
+  - name: Secret Box Tutorial
+    command: |
+      gp sync-await secretbox-contract
+      gp open tutorial/guide.md
     openMode: split-right
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
