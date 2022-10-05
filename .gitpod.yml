@@ -30,17 +30,15 @@ tasks:
       rustup default nightly
       echo "Pull LocalSecret image"
       docker pull ghcr.io/scrtlabs/localsecret
-      echo "Pull contract optimizer image"
-      docker pull enigmampc/secret-contract-optimizer
       echo "Compile secret box contract"
       make build
       echo "Build schema files"
       make schema
       echo "Run unit tests"
-      make unit-test
+      make test
+      echo "Pull contract optimizer image"
+      docker pull enigmampc/secret-contract-optimizer
       gp sync-done secretbox-env
-    command: |
-      exit
 
   - name: Launch LocalSecret
     init: |
