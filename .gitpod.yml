@@ -27,12 +27,6 @@ tasks:
       docker pull ghcr.io/scrtlabs/localsecret
       echo "Pull contract optimizer image"
       docker pull enigmampc/secret-contract-optimizer
-      echo "Compile secret box contract"
-      make build
-      echo "Build schema files"
-      make schema
-      echo "Run unit tests"
-      make test
       echo "Install Vue"
       yarn global add @vue/cli
       cd app
@@ -49,20 +43,23 @@ tasks:
       echo "Starting localsecret blockchain"
       make localsecret &
       gp ports await 26657
-      gp ports await 9090
-      gp ports await 9091
-      gp ports await 5000
-      gp ports await 1317
-      docker container logs localsecret | grep -w "Starting RPC HTTP server" | grep 26657 && gp sync-done blockchain
+      gp sync-done blockchain
       docker container logs -f localsecret
     openMode: split-right
 
   - name: Secret Box Contract
     init: |
       gp sync-await secretbox-env
+      echo "Compile secret box contract"
+      make build
+      echo "Build schema files"
+      make schema
     command: |
       gp sync-await blockchain
+      echo "Run unit tests"
+      make test
       echo "Deploy and instantiate secret contract to local blockchain"
+      gp ports await 26657
       gp env SECRET_BOX_ADDRESS=`scripts/create_secret_box.sh`
       gp sync-done secretbox-contract
     openMode: split-right
@@ -78,7 +75,6 @@ tasks:
     command: |
       gp sync-await secretbox-contract
       gp open tutorial/guide.md
-      exit
     openMode: split-right
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
