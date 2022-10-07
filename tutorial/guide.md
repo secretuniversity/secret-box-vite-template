@@ -98,6 +98,13 @@ use secret_box_vite_template::state::State;
 ## Integration Tests
 - After completing your secret contract and unit test code, modify the `integration.ts` as needed. These are super helpful for illustrating how to interact with a Secret App such as connecting to the network, querying and executing transactions, etc.
 
+
+## Tutorial
+This is where you'll write the guide for your Secret Box. Under the `tutorial/` directory you'll find a starting guide (this file :tada:) in `guide.md`.
+
+-  delete `tutorial/illustrations/secret-box-template.png`
+<br/>
+ 
 One thing to consider when writing your guide is to determine what blueprint code your Secret Box contains and 
 what will be given in the tutorial for developers to add/modify manually.
 
@@ -107,12 +114,6 @@ through the key aspects and code snippets you decide to include!
 
 This is an excellent example of a code walkthrough that is more inline with the above approach: [Millionaire's Problem Breakdown](https://docs.scrt.network/secret-network-documentation/development/getting-started/millionaires-problem-breakdown-extra-credit).
 
-## Tutorial
-This is where you'll write the guide for your Secret Box. Under the `tutorial/` directory you'll find a starting guide (this file :tada:) in `guide.md`.
-
--  delete `tutorial/illustrations/secret-box-template.png`
-<br/>
- 
 ## Secret Box Frontend
 This is where all of your frontend code goes, under the `app/` directory and is setup as a [Vite](https://vitejs.dev/guide/)  project using the [Vue](https://vuejs.org/) framework and [Typescript](https://www.typescriptlang.org/) programming language.
 
