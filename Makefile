@@ -14,7 +14,7 @@ unit-test:
 	cargo unit-test
 
 # This is a local build with debug-prints activated. Debug prints only show up
-# in the local development chain (see the `start-server` command below)
+# in the local development chain (see the `localsecret` command below)
 # and mainnet won't accept contracts built with the feature enabled.
 .PHONY: build _build
 build: _build compress-wasm
@@ -34,7 +34,7 @@ build-mainnet-reproducible:
 	docker run --rm -v "$$(pwd)":/contract \
 		--mount type=volume,source="$$(basename "$$(pwd)")_cache",target=/contract/target \
 		--mount type=volume,source=registry_cache,target=/usr/local/cargo/registry \
-		enigmampc/secret-contract-optimizer
+		enigmampc/secret-contract-optimizer:1.0.9
 
 .PHONY: compress-wasm
 compress-wasm:
@@ -55,7 +55,7 @@ localsecret: # CTRL+C to stop
 		-v $$(pwd):/root/code \
 		--name localsecret ghcr.io/scrtlabs/localsecret
 
-# This relies on running `start-server` in another console
+# This relies on running `localsecret` in another console
 # You can run other commands on the secretcli inside the dev image
 # by using `docker exec secretdev secretcli`.
 .PHONY: deploy
