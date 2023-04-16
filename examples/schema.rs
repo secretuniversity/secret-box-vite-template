@@ -3,8 +3,8 @@ use std::fs::create_dir_all;
 
 use cosmwasm_schema::{export_schema, remove_schemas, schema_for};
 
-use secret_counter_vuejs_box::msg::{CountResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
-use secret_counter_vuejs_box::state::State;
+use secret_box_vuejs_template::msg::{CountResponse, ExecuteMsg, InstantiateMsg, QueryMsg};
+use secret_box_vuejs_template::state::State;
 
 fn main() {
     let mut out_dir = current_dir().unwrap();

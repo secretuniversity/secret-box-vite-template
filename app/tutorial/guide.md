@@ -32,10 +32,13 @@ You should have the following three terminal windows open in your local environm
 
 The design of our _Secret Counter_ contract accounts for two possible users: 
 
-- The contract owner (you) who instantiates the contract 
-- The general user of our contract who can query, increment, and reset the counter.
+- The contract owner (you) who instantiates the contract, and has the ability to reset the counter.
+- The general user of our contract who can query and increment the counter.
+<br/>
 
-![](https://i.imgur.com/z3R428U.png)
+![](https://i.imgur.com/vOL4e5t.png)
+
+<br/>
 
 ### Project Structure
 
@@ -51,13 +54,14 @@ A Secret contract, which is based on [CosmWasm](https://docs.cosmwasm.com) smart
 
 - `instantiate()` - receives the `InstantiateMsg` and saves the initial value of the counter to the contract state. The instantiation of a CosmWasm smart contract is performed by the contract owner.
 
-- `execute()` - handles transExercise which mutate or change the state of the contract. In our case, the `Increment` and `Reset` messages are handled here to update the counter's value.
+- `execute()` - handles transactions which mutate or change the state of the contract. In our case, the `Increment` and `Reset` messages are handled here to update the counter's value.
 
-- `query()` - handles messages which do **not** change the state of the contract. To recieve the counter's state we'll utilize the `QueryCount` message.
+- `query()` - handles messages which do **not** change the state of the contract. To get the counter's value we'll utilize the `QueryCount` message.
 
 A good place to start when developing secret contracts is to design the messages, defined in the [msg.rs](), that will be handled by your contract's entry points.
-
+###
 **Entry Point: Instantiate**
+###
 We've defined our `InstantiateMsg` as:
 
 ```rust
@@ -72,7 +76,9 @@ That means that when we create the contract, we can initialize it with the follo
 ```
 { "count": Some i32 Number }
 ```
+###
 **Entry Point: Query**
+###
 Our `QueryMsg` definition contains the `GetCount` message, which is defined as an enum variant:
 
 ```rust
@@ -105,9 +111,10 @@ The returned value is the `CountResponse` struct with the value of the counter.
   "count": 16876
 }
 ```
-
+###
 **Entry Point: Execute**
-To handle updating our counter's value we need to execute a transExercise and update our smart contract's state. The execute messages are defined as part of the `ExecuteMsg` enum:
+###
+To handle updating our counter's value we need to execute a transaction and update our smart contract's state. The execute messages are defined as part of the `ExecuteMsg` enum:
 
 ```rust
 pub enum ExecuteMsg {
@@ -133,15 +140,15 @@ reset { "count": 56 } # Or any i32 value
 ## Setting Up Your Secret Counter
 
 In the `Secret Box Workspace` terminal, you should see the output of the tasks that store and create your contract.
-
-![](https://i.imgur.com/hQ1Bgg2.png)
+###
+![](https://i.imgur.com/bavMGSq.png)
 
 
 > If you've done any object-oriented programming, the idea of instantiating an object from a class definition will be familiar to you.
 
 You can think of Secret Contracts as class definitions that first need to get deployed to the blockchain. Once deployed, you can create an instance of your contract by sending
 an `InstantiateMsg` using the identifier of your deployed contract.
-
+###
 When a contract is successfully stored on `LocalSecret`, it will be given an ID that uniquely identifies the uploaded contract.
 
 Because this is a fresh development workspace, the contract ID is assigned a value of `1` in the above message:
@@ -175,10 +182,11 @@ SECRET_BOX_CODE=1
 SECRET_BOX_ADDRESS=secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
 SECRET_BOX_HASH=0xa92402fd34057f79f7af6101d25d20c05b960ed88c82932657d87889f046d2d2
 ```
-
+###
 **Exercise**
-
+###
 Let's try to re-upload and instantiate the _Secret Counter_ contract.
+###
 
 In the `Secret Box Workspace` terminal, run the command:
 
@@ -195,8 +203,9 @@ echo $SECRET_BOX_ADDRESS
 echo $SECRET_BOX_HASH
 ```
 
+###
 **Understanding Smart Contract Instantiation**
-
+###
 Here's a breakdown of what the `instantiate()` method in your contract does:
 
 ```rust
@@ -216,17 +225,18 @@ As you can see there are multiple parameters sent on the creation of a secret co
 - `deps: DepsMut` - contains references to your contract's `Storage`, an `Api` element that has functionality outside of the contract wasm such as the ability to
 validate, canonicalize (*binary*) and humanize (*string*) Secret Network addresses, and a `Querier` to do things like getting the balance of a wallet address.
 
-- `_env: Env` - this parameter, though unused as denoted by the `_` in front, has a `BlockInfo` element for getting the current block, `TransExerciseInfo` which has the index
-of the transExercise this `InstantiateMsg` was executed in, and `ContractInfo` which has the address of the instantiated contract.
+- `_env: Env` - this parameter, though unused as denoted by the `_` in front, has a `BlockInfo` element for getting the current block, `TransactionInfo` which has a record of the position of the 
+`InstantiateMsg` transaction in the current block, and `ContractInfo` which has the address of the instantiated contract.
 
 - `info` - `MessageInfo` contains the sender's address and any funds sent to the contract.
 
 - `msg` - `InstantiateMsg` this is the message defined for the creation of the contract, which in our case is an 32-bit integer named `count`.
 
+###
 **Saving the State**
 
 The first thing our `instantiate()` method does is declare and set the values for our `State` object, which is defined in [state.rs]().
-
+###
 You can see that the pieces of data we're storing in `State` are the initial
 counter value (`msg.count`) and the contract owner `info.sender.clone()`. 
 
@@ -253,11 +263,14 @@ the node logs, and then returns the `Ok` enum with a default response.
 ```
 
 And in the `LocalSecret` terminal, we can see that the output from the debug message:
+###
 
 ![](https://i.imgur.com/W7rnLVd.png)
 
+###
 **Next Steps**
 
+###
 We'll cover the exact steps to upload and instantiate your contract as part of the next steps to evolve your _Simple Secret Counter_ DApp. We'll also flesh out the details for the query, increment and reset functions.
 
 ## Querying the Counter's Value
@@ -304,38 +317,42 @@ to_binary(&query_count(deps)?)
 
 
 All Cosmwasm query responses are the `Binary` type, which basically takes a vector of bytes and uses base64 encoding to create a string of text. 
+###
 Base64 encodings are also smaller than their `Binary` counterparts, which makes it more efficient to return data that way as opposed to the raw bytes.
-
+###
 Next, we need to implement the `query_count()` method so that it returns a response with the current counter value.
 
 ```rust
 fn query_count(
     deps: Deps,
 ) -> StdResult<CountResponse> {
-   // 1. load state
-   let state = config_read(deps.storage).load()?;
 
-   deps.api.debug("count incremented successfully");
+    // 1. load state
+    // 2. return count response
 
-   // 2. return count response
-   Ok(CountResponse { count: state.count })
+    Ok(CountResponse { count: 16876 })
 }
 ```
 
 In order to return the count of our contract, we first need to load our contract's state. The counter contract uses a Singleton type for storage of the `State` data. The `config_read()` and `config()` methods are used to read and save to the contract's state respectively. Then we create the response and return our counter's value.
+###
 
 **Exercise**
-
-Substitute the code in `query_count()` for this:
+###
+Substitute the `query_count()` function definition with this:
 
 ```rust
-   // 1. load state
-   let state = config_read(deps.storage).load()?;
+fn query_count(
+    deps: Deps,
+) -> StdResult<CountResponse> {
+    // 1. load state
+    let state = config_read(deps.storage).load()?;
 
-   deps.api.debug("count incremented successfully");
+    deps.api.debug("count queried successfully");
 
-   // 2. return count response
-   Ok(CountResponse { count: state.count })
+    // 2. return count response
+    Ok(CountResponse { count: state.count })
+}
 ```
 
 Finally, use the `Secret Box Workspace` terminal window to compile your contract changes:
@@ -353,7 +370,7 @@ cat ./contract.wasm | gzip -9 > ./contract.wasm.gz
 ```
 
 **Unit Testing Your Query Message**
-
+###
 If you scroll down to the end of the [contract.rs]() code, you'll see the unit tests. We've already
 implemented the `proper_initialization` unit test that includes a call to `query()`, passing the `QueryMsg::GetCount` 
 message.
@@ -384,8 +401,9 @@ mod tests {
     }
 }
 ```
+###
 **Exercise**
-
+###
 Now, that we've modified the contract to return the actual value of the counter, we can change our `proper_initialization()` unit test so that it uses a different value from the hard-coded value of `16876`.
 
 Change the `InstantiateMsg` from:
@@ -458,8 +476,9 @@ pub fn execute(
 }
 ```
 
+###
 **Exercise**
-
+###
 Find the `try_increment` function and change the code from this:
 
 ```rust
@@ -499,7 +518,7 @@ storage, check out the [Secret CosmWasm storage docs](https://docs.scrt.network/
 
 
 **Exercise**
-
+###
 Find the `try_reset` function and change it from this:
 
 ```rust
@@ -542,19 +561,20 @@ pub fn try_reset(
 ```
 
 When calling `update`, we're checking to make sure that the sender of the message is also the contract
-owner because in our design we've decided that the `reset` transExercise is something only the contract owner
+owner because in our design we've decided that the `reset` transaction is something only the contract owner
 should be able send.
 
 In the event that the caller of `reset` is *not* the contract owner, we return a `ContractError` enum variant stating the sender is unauthorized. 
 
 > The [error.rs]() file is a great spot to put all of your contract-specific errors for the `execute` messages.
-
+###
 **Unit Testing Your Increment and Reset Messages**
-
+###
 Yay! Now we're ready to add unit tests for the `ExecuteMsg::Increment` and `ExecuteMsg::Reset` message variants.
 
+###
 **Exercise**
-
+###
 Change the increment and reset unit test functions from:
 
 ```rust
@@ -619,15 +639,18 @@ fn reset() {
     assert_eq!(5, value.count);
 }
 ```
-**Exercise** 
 
+**Exercise** 
+###
 Now, let's compile the contract and, if successful, run the units tests.
 
 ```bash
 make build && make test
 ```
 
+###
 **Build and Unit Test Log**
+###
 
 ```bash
 RUSTFLAGS='-C link-arg=-s' cargo build --release --target wasm32-unknown-unknown
@@ -664,24 +687,26 @@ Use the `Secret Box Workspace` terminal to run the following command:
 
 Now that you've got all of your contract's functionality implemented, and the unit tests are passing, it's time to
 run the integration tests. These tests are written using [TypeScript](https://www.typescriptlang.org/) and [Secret.js](https://secretjs.scrt.network/), which is the library that you'll use to 
-connect to `LocalSecret` and run your queries and transExercises.
+connect to `LocalSecret` and run your queries and transactions.
 
 > Writing integration tests is an important exercise as it involves having an external process interact with your contract. It's also helpful 
 when it comes time to develop the frontend of a DApp because it provides the examples of sending the query and execute messages to your 
 contract.
 
 **Exercise**
-
+###
 In the `Secret Box Workspace` terminal window, run these commands:
 
 ```bash
 cd tests
+source .env
 npx ts-node secretbox.ts
 ```
 > As the test is running you'll start to see the activity in the `LocalSecret` terminal, as the integration tests.
 
 ![](https://i.imgur.com/MYhruE5.png)
 
+###
 The `secretbox.ts` perform these steps in order:
 
 - initializes the *Secret.js* client
@@ -691,8 +716,9 @@ The `secretbox.ts` perform these steps in order:
 
 Congratulations! You've successfully completed your first secret contract with both unit and integration tests.
 
+###
 **Next Steps**
-
+###
 In the next part of this tutorial, we'll modify the _Simple Secret Counter_ DApp to:
 
 - get the actual counter value from the contract
@@ -710,18 +736,20 @@ with an initial counter value of _0_.
 
 At this point, the `SecretBox.vue` component has a hard-coded value of _0_ for the initial and reset value for the counter. 
 
+###
 **Exercise**
-
+###
 Go ahead and try out the counter now, clicking the _+_ button, and then click on the _Reset Counter?_.
 
 ### Add the Secret Network Client and Wallet
 
 > You'll notice that the incrementing and resetting happens very quickly. After you've "wired" your frontend to the backend contract, it won't be
 > as quick because the `localsecret` blockchain has a block time of approximately 5-6s, which is how long it takes to get your `increment` and 
-> `reset` transExercises included in the next block that's committed to the network.
+> `reset` transactions included in the next block that's committed to the network.
 
 ![](https://i.imgur.com/SDjq1Hv.png)
 
+###
 Now, let's modify the [SecretBox.vue]() component so that it:
 
 - imports the `Wallet` and `SecretNetworkClient` modules
@@ -732,15 +760,17 @@ Now, let's modify the [SecretBox.vue]() component so that it:
 > The _Simple Secret Counter_ frontend uses the settings published to `app/.env` to interact with the contract.
 >
 > The Vite frontend server automatically reads the `.env` file and makes environment variables prefixed with `VITE_` available to your frontend client via the `import.meta.env` object.
-> ```bash
-> VITE_SECRET_BOX_CODE=1
-> VITE_SECRET_BOX_ADDRESS=secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
-> VITE_SECRET_BOX_HASH=0xa92402fd34057f79f7af6101d25d20c05b960ed88c82932657d87889f046d2d2
-> VITE_LOCALSECRET_GRPC=https://9091-secretunive-secretcount-j7shljm3sni.ws-us77.gitpod.io
-> ```
+>
+```bash
+VITE_SECRET_BOX_CODE=1
+VITE_SECRET_BOX_ADDRESS=secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
+VITE_SECRET_BOX_HASH=0x000b66731111961d23548cf32aa3a17e4553c635aa9a524057b314b81aadf5a6
+VITE_LOCALSECRET_LCD=https://1317-secretunive-secretcount-x3lscykgc9v.ws-us94.gitpod.io
+```
 
+###
 **Exercise**
-
+###
 Change the following code at the top of [SecretBox.vue]():
 
 ```typescript
@@ -763,12 +793,12 @@ const wallet = new Wallet(
 )
 
 // Get environment variables from .env
-const localSecretUrl = import.meta.env.VITE_LOCALSECRET_GRPC
+const localSecretUrl = import.meta.env.VITE_LOCALSECRET_LCD
 const secretBoxCode = import.meta.env.VITE_SECRET_BOX_CODE
 const secretBoxHash = import.meta.env.VITE_SECRET_BOX_HASH
 const secretBoxAddress = import.meta.env.VITE_SECRET_BOX_ADDRESS
 
-console.log(`local gRPC = ${localSecretUrl}`)
+console.log(`local url = ${localSecretUrl}`)
 console.log(`code id = ${secretBoxCode}`)
 console.log(`contract hash = ${secretBoxHash}`)
 console.log(`contract address = ${secretBoxAddress}`)
@@ -777,13 +807,22 @@ console.log(`contract address = ${secretBoxAddress}`)
 
 If you open the browser Dev Tools window (Ctrl+Shift+I), you should see the console log messages from above. 
 
-![](https://i.imgur.com/bUSD7p3.png)
+```bash
+local url = https://1317-secretunive-secretcount-x3lscykgc9v.ws-us94.gitpod.io
+code id = 1
+contract hash = 0x000b66731111961d23548cf32aa3a17e4553c635aa9a524057b314b81aadf5a6
+contract address = secret18vd8fpwxzck93qlwghaj6arh4p7c5n8978vsyg
+Initializing Secret.js client ...
+Created client for wallet address: secret1ap26qrlp8mcq2pg6r47w43l0y8zkqm8a450s03
+```
 
 ### Connect to LocalSecret
 
 At this point we haven't actually connected to the `localsecret` network yet. Let's do that next.
 
+###
 **Exercise**
+###
 
 Change the `onMounted()` function from:
 
@@ -801,9 +840,9 @@ onMounted(async () => {
 
   // To create a signer secret.js client, also pass in a wallet
   console.log("Initializing Secret.js client ...")
-  secretjs = await SecretNetworkClient.create({
-    //grpcWebUrl: "http://localhost:9091",
-    grpcWebUrl: localSecretUrl,
+  secretjs = await new SecretNetworkClient({
+    //url: "http://localhost:1317",
+    url: localSecretUrl,
     chainId: "secretdev-1",
     wallet: wallet,
     walletAddress: wallet.address,
@@ -815,18 +854,20 @@ onMounted(async () => {
 })
 ```
 
-In the code above, we're creating a client for `localsecret` using the wallet we setup. Once the DApp has connected to the network, you're ready
-to start making queries and sending transExercises to the _Secret Counter_ contract.
+In the code above, we're creating a client for `localsecret` using the wallet we setup.
+Once the DApp has connected to the network, you're ready to start making queries and sending transactions 
+to the _Secret Counter_ contract.
 
-> We're using the cloud-based Gitpod URL in the workspace, to talk to the `LocalSecret` blockchain, which runs on port 9091. If you're working with this _Secret Box_ in a local developer environment, change that to the line above `grpcWebUrl: "http://localhost:9091` instead.
+> We're using the cloud-based Gitpod URL in the workspace, to talk to the `LocalSecret` blockchain, which runs on port 1317. If you're working with this _Secret Box_ in a local developer environment, change that to the line above `url: "http://localhost:1317` instead.
 
 ### Query the Counter Value
 
 At the end of the `onMounted` function above, you'll notice that as the last task we're calling the `queryCounter()` function to display
 the initial value. But, it's not actually sending the query to your contract yet.
 
+###
 **Exercise**
-
+###
 Change the `queryCounter() function from:
 
 ```typescript
@@ -842,8 +883,8 @@ const queryCounter = async () => {
   type CountResponse = { count: number }
 
   const response = (await secretjs.query.compute.queryContract({
-    contractAddress: secretBoxAddress,
-    codeHash: secretBoxHash,
+    contract_address: secretBoxAddress,
+    code_hash: secretBoxHash,
     query: { get_count: {} },
   })) as CountResponse;
 
@@ -874,17 +915,19 @@ get_count: { }
 > Remember that the `secret counter` contract was instantiated with an initial value of `16876`.
 
 and back in the _Simple Counter_ frontend, you'll see it's picking up the actual counter value. We're on our way now!
+###
 
 ![](https://i.imgur.com/Ll0i2fx.png)
 
 ### Increment the Counter
 
 If you click the _+_ button to increment the counter, you'll notice that the counter is incremented, but if you reload the page, the counter value
-that's displayed is still `16876`. That's because we haven't modified the `increment()` function to send the transExercise to `LocalSecret`. The counter 
+that's displayed is still `16876`. That's because we haven't modified the `increment()` function to send the transaction to `LocalSecret`. The counter 
 value stored in the contract's state has not been changed yet.
 
+###
 **Exercise**
-
+###
 Change the `incrementCounter()` function from:
 
 ```typescript
@@ -900,8 +943,8 @@ const incrementCounter = async () => {
   const tx = await secretjs.tx.compute.executeContract(
   {
     sender: wallet.address,
-    contractAddress: secretBoxAddress,
-    codeHash: secretBoxHash,
+    contract_address: secretBoxAddress,
+    code_hash: secretBoxHash,
     msg: {
       increment: {},
     },
@@ -915,18 +958,19 @@ const incrementCounter = async () => {
 }
 ```
 
-In the code above, we send a transExercise that updates the contract's state by calling `secretjs.tx.compute.executeContract()`, supplying:
+In the code above, we send a transaction that updates the contract's state by calling `secretjs.tx.compute.executeContract()`, supplying:
 
 - sender's wallet address
 - contract address
 - contract hash
 - the `Increment` message
-- the gas limit for our transExercise sets a "meter" to limit the amount of gas paid for in fees
+- the gas limit for our transaction sets a "meter" to limit the amount of gas paid for in fees
 
-After the `increment` transExercise is executed in a block, we do another `queryCounter()` call to get the changed value.
+After the `increment` transaction is executed in a block, we do another `queryCounter()` call to get the changed value.
 
+###
 **Exercise**
-
+###
 Now, try incrementing the counter and you should see the counter value has now changed.
 
 > Because we're now connected to the `localsecret` blockchain, there's a slight delay between clicking the increment button, and the changed value
@@ -937,8 +981,9 @@ Now, try incrementing the counter and you should see the counter value has now c
 At this point, since we haven't modified the `resetCounter()` function when you click the _Reset Counter?_ button, you'll see the value is reset
 to _0_, but reloading the page will show that the counter is still at the last incremented value.
 
+###
 **Exercise**
-
+###
 Change the `resetCounter()` function from:
 
 ```typescript
@@ -954,8 +999,8 @@ const resetCounter = async () => {
   const tx = await secretjs.tx.compute.executeContract(
   {
     sender: wallet.address,
-    contractAddress: secretBoxAddress,
-    codeHash: secretBoxHash,
+    contract_address: secretBoxAddress,
+    code_hash: secretBoxHash,
     msg: {
       reset: { count: 56 },
     },
@@ -977,8 +1022,9 @@ Try clicking the _Reset Counter?_ button.
 
 ![](https://i.imgur.com/ahBdkLp.png)
 
+###
 Congratulations on completing this introductory _Secret Counter Box_ tutorial!
-
+###
 We at [Secret University](https://scrt.university) hope you've not only enjoyed working through the **Exercise** steps, but that you've also learned a bit of what Secret Contracts are all about.
 
 ## Further Reading
